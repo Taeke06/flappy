@@ -1,12 +1,15 @@
-let colorlist = ['gold', 'yellow', 'turquoise', 'red']
+class Rect {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.width = w;
+    this.height = h;
+    this.color = "green";
+  }
 
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(255);
-}
-
-function draw() {
-  noStroke()
-  fill(random(colorlist));
-  ellipse(mouseX, mouseY, 25, 25);
+  drawRect() {
+    fill(this.color);
+    rect(this.x, this.y, this.width, this.height);
+    this.x += -3
+  }
 }
