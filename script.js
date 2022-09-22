@@ -42,11 +42,13 @@ class rechthoek {
   }
 }
 
+
+
 var pipes = [];
 var vliegtuig;
 
 function preload() {
-  img = loadImage("images/vliegtuig.png");
+  img = loadImage("images/ryanair.webp");
   img2 = loadImage("images/achtergrondje.jpg");
 }
 
@@ -56,7 +58,7 @@ function setup() {
   vliegtuig = new Vliegtuig(100,200);
 
   image(img, 100, 200);
-  image(img2, 500, 400)
+  image(img2, 626, 368);
 }
 
 
@@ -81,7 +83,7 @@ function draw() {
   }
 
     pipes.forEach((p) => {
-    p.drawrechthoek()
+     p.drawrechthoek()
   });
   
   vliegtuig.drawVliegtuig();
