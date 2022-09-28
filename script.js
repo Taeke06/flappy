@@ -46,6 +46,7 @@ class rechthoek {
   hit() {
    if (vliegtuig.x < this.x + this.w && vliegtuig.x + vliegtuig.w / 2 > this.x) {
     if (vliegtuig.y < this.y + this.h && vliegtuig.y + vliegtuig.w / 2 > this.y) {
+      gameState = 2;
       this.color = "green";
     }
   }
@@ -59,6 +60,9 @@ class rechthoek {
 
 var pipes = [];
 var vliegtuig;
+var score = 0;
+
+let gameState = 0
 
 function preload() {
   img = loadImage("images/ryanair.webp");
@@ -72,10 +76,24 @@ function setup() {
 
   image(img, 100, 200);
   image(img2, 626, 368);
+  pressStart = loadImage("images/skycraper.png")
+  endBackground = loadImage("images/skycraper.png")
 }
 
-
 function draw() {
+
+
+  if (gameState == 0) {
+    startGame();
+  } else if (gameState == 1) {
+    playGame();
+  }
+  else if (gameState == 2) {
+    finishGame();
+  }
+}
+
+function game() {
   background(img2);
 
   if (frameCount % 85 == 0) {
@@ -94,17 +112,52 @@ function draw() {
     }
   }
 
+   if (frameCount % 85 == 0 && pipes.length > 3.6) {
+    score = score + 1;
+   }
+  
   pipes.forEach((p) => {
     p.drawrechthoek();
     p.hit();
   });
 
+   fill('white');
+  textSize(25);
+  text('Score:', 10, 35)
+  text(score, 90, 35);
+  
   vliegtuig.drawVliegtuig();
 
+}
+
+function startGame() {
+  background(pressStart);
+}
+
+function playGame() {
+  game();
+}
+
+function finishGame() {
+  background(endBackground);
 }
 
 function keyPressed() {
   if (keyCode == 32) {
     vliegtuig.vy -= 5;
+  }
+}
+
+function mousePressed() {
+  console.log(gameState);
+  if (gameState == 0) {
+    gameState += 1;
+
+
+  } else if (gameState == 2) {
+    pipes = [];
+    score = 0;
+
+    gameState = 0;
   }
 }
