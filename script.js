@@ -2,13 +2,15 @@ class Vliegtuig {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.w = 98;
+    this.h = 45;
     this.vy = 0;
     this.gravity = 0.2;
   }
 
   drawVliegtuig() {
     fill("red");
-    image(img, this.x, this.y, 98, 45)
+    image(img, this.x, this.y, this.w, this.h)
 
     this.vy += this.gravity;
 
@@ -40,6 +42,17 @@ class rechthoek {
     rect(this.x, this.y, this.w, this.h);
     this.x += -3;
   }
+
+  hit() {
+   if (vliegtuig.x < this.x + this.w && vliegtuig.x + vliegtuig.w / 2 > this.x) {
+    if (vliegtuig.y < this.y + this.h && vliegtuig.y + vliegtuig.w / 2 > this.y) {
+      this.color = "green";
+    }
+  }
+    else {
+      this.color = "red";
+    }
+  }
 }
 
 
@@ -55,7 +68,7 @@ function preload() {
 function setup() {
   createCanvas(626, 368);
 
-  vliegtuig = new Vliegtuig(100,200);
+  vliegtuig = new Vliegtuig(100, 200);
 
   image(img, 100, 200);
   image(img2, 626, 368);
@@ -66,7 +79,6 @@ function draw() {
   background(img2);
 
   if (frameCount % 85 == 0) {
-
 
     randomheight = random(height - 150);
 
@@ -82,10 +94,11 @@ function draw() {
     }
   }
 
-    pipes.forEach((p) => {
-     p.drawrechthoek()
+  pipes.forEach((p) => {
+    p.drawrechthoek();
+    p.hit();
   });
-  
+
   vliegtuig.drawVliegtuig();
 
 }
