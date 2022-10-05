@@ -57,14 +57,15 @@ class rechthoek {
 }
 
 
-
+var engineCounter = 0;
 var pipes = [];
 var vliegtuig;
 var score = 0;
 
-let gameState = 0
+let gameState = 1
 
 function preload() {
+  engine = loadSound('sounds/engine.mp3');
   img = loadImage("images/ryanair.webp");
   img2 = loadImage("images/achtergrondje.jpg");
 }
@@ -76,8 +77,8 @@ function setup() {
 
   image(img, 100, 200);
   image(img2, 626, 368);
-  pressStart = loadImage("images/skycraper.png")
-  endBackground = loadImage("images/skycraper.png")
+  pressStart = loadImage("images/ryanair(1).jpg")
+  endBackground = loadImage("images/vliegtuig crash 2.jpg")
 }
 
 function draw() {
@@ -94,6 +95,14 @@ function draw() {
 }
 
 function game() {
+  
+if(frameCount % 1 == 0){
+  engineCounter = engineCounter + 1
+}
+  if(engineCounter == 10){
+    engine.play()
+  }
+
   background(img2);
 
   if (frameCount % 85 == 0) {
@@ -112,7 +121,7 @@ function game() {
     }
   }
 
-   if (frameCount % 85 == 0 && pipes.length > 3.6) {
+   if (frameCount % 85 == 0 && pipes.length > 4) {
     score = score + 1;
    }
   
@@ -139,6 +148,8 @@ function playGame() {
 }
 
 function finishGame() {
+  engine.stop();
+  
   background(endBackground);
 }
 
