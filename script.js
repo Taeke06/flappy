@@ -10,7 +10,7 @@ class Vliegtuig {
 
   drawVliegtuig() {
     fill("red");
-    image(img, this.x, this.y, this.w, this.h)
+    image(img, this.x, this.y, this.w, this.h);
 
     this.vy += this.gravity;
 
@@ -29,17 +29,18 @@ class Vliegtuig {
 }
 
 class rechthoek {
-  constructor(x, y, w, h) {
+  constructor(x, y, w, h, img) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+    this.img = img;
     this.color = "red";
   }
 
   drawrechthoek() {
     fill(this.color);
-    rect(this.x, this.y, this.w, this.h);
+    rect(this.img, this.x, this.y, this.w, this.h);
     this.x += -3;
   }
 
@@ -48,6 +49,7 @@ class rechthoek {
     if (vliegtuig.y < this.y + this.h && vliegtuig.y + vliegtuig.w / 2 > this.y) {
       gameState = 2;
       this.color = "green";
+      knal.play();
     }
   }
     else {
@@ -62,12 +64,16 @@ var pipes = [];
 var vliegtuig;
 var score = 0;
 
-let gameState = 1
+let gameState = 0
 
 function preload() {
-  engine = loadSound('sounds/engine.mp3');
+  engine = loadSound("sounds/biplane-flying-01.mp3");
   img = loadImage("images/ryanair.webp");
   img2 = loadImage("images/achtergrondje.jpg");
+  knal = loadSound("sounds/explosion-6801.mp3");
+  fontRegular = loadFont("assets/trebuc.ttf");
+  buis1 = loadImage("images/flatje.png");
+  buis2 = loadImage("images/flatje.png");
 }
 
 function setup() {
@@ -75,6 +81,7 @@ function setup() {
 
   vliegtuig = new Vliegtuig(100, 200);
 
+  textFont(fontRegular);
   image(img, 100, 200);
   image(img2, 626, 368);
   pressStart = loadImage("images/ryanair(1).jpg")
@@ -109,8 +116,8 @@ if(frameCount % 1 == 0){
 
     randomheight = random(height - 150);
 
-    pijp1 = new rechthoek(700, 0, 50, randomheight)
-    pijp2 = new rechthoek(700, randomheight + 150, 50, 300)
+    pijp1 = new rechthoek(700, 0, 50, randomheight, buis1);
+    pijp2 = new rechthoek(700, randomheight + 150, 50, 300, buis2);
 
     pipes.push(pijp1);
     pipes.push(pijp2);
@@ -163,7 +170,7 @@ function mousePressed() {
   console.log(gameState);
   if (gameState == 0) {
     gameState += 1;
-
+    engineCounter = 0
 
   } else if (gameState == 2) {
     pipes = [];
