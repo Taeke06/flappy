@@ -40,18 +40,19 @@ class rechthoek {
 
   drawrechthoek() {
     fill(this.color);
-    rect(this.img, this.x, this.y, this.w, this.h);
+    // rect(this.x, this.y, this.w, this.h);
+    image(this.img, this.x, this.y, this.w, this.h);
     this.x += -3;
   }
 
   hit() {
-   if (vliegtuig.x < this.x + this.w && vliegtuig.x + vliegtuig.w / 2 > this.x) {
-    if (vliegtuig.y < this.y + this.h && vliegtuig.y + vliegtuig.w / 2 > this.y) {
-      gameState = 2;
-      this.color = "green";
-      knal.play();
+    if (vliegtuig.x < this.x + this.w && vliegtuig.x + vliegtuig.w / 2 > this.x) {
+      if (vliegtuig.y < this.y + this.h && vliegtuig.y + vliegtuig.w / 2 > this.y) {
+        gameState = 2;
+        this.color = "green";
+        knal.play();
+      }
     }
-  }
     else {
       this.color = "red";
     }
@@ -63,6 +64,7 @@ var engineCounter = 0;
 var pipes = [];
 var vliegtuig;
 var score = 0;
+var highscore = 0;
 
 let gameState = 0
 
@@ -72,8 +74,8 @@ function preload() {
   img2 = loadImage("images/achtergrondje.jpg");
   knal = loadSound("sounds/explosion-6801.mp3");
   fontRegular = loadFont("assets/trebuc.ttf");
-  buis1 = loadImage("images/flatje.png");
-  buis2 = loadImage("images/flatje.png");
+  buis1 = loadImage("images/thunder.png");
+  buis2 = loadImage("images/tower.png");
 }
 
 function setup() {
@@ -102,11 +104,11 @@ function draw() {
 }
 
 function game() {
-  
-if(frameCount % 1 == 0){
-  engineCounter = engineCounter + 1
-}
-  if(engineCounter == 10){
+
+  if (frameCount % 1 == 0) {
+    engineCounter = engineCounter + 1
+  }
+  if (engineCounter == 10) {
     engine.play()
   }
 
@@ -128,20 +130,25 @@ if(frameCount % 1 == 0){
     }
   }
 
-   if (frameCount % 85 == 0 && pipes.length > 4) {
+  if (frameCount % 85 == 0 && pipes.length > 4) {
     score = score + 1;
-   }
-  
+    if(score > highscore){
+      highscore = score;
+    }
+  }
+
   pipes.forEach((p) => {
     p.drawrechthoek();
     p.hit();
   });
 
-   fill('white');
+  fill('white');
   textSize(25);
   text('Score:', 10, 35)
   text(score, 90, 35);
-  
+  text('Highscore:', 10, 60)
+  text(highscore, 140, 60)
+
   vliegtuig.drawVliegtuig();
 
 }
@@ -156,7 +163,7 @@ function playGame() {
 
 function finishGame() {
   engine.stop();
-  
+
   background(endBackground);
 }
 
